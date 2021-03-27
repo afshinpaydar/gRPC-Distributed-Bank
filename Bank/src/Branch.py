@@ -32,7 +32,7 @@ class Branch(bank_pb2_grpc.BankingServicer):
     def Query(self,request, context):
       self.recvMsg.append(request)
       try:
-        return bank_pb2.BalanceResponse(ammount=self.balance[request.branchid - 1]['balance'], status=f"success")
+        return bank_pb2.BalanceResponse(ammount=self.balance[request.branchid - 1]['balance'], status="success")
       except:
         return bank_pb2.BalanceResponse(ammount=-1, status="failed")
     def Deposit(self,request, context):
