@@ -86,8 +86,6 @@ class Branch(bank_pb2_grpc.BankingServicer):
           all_response.append(stub.Withdraw(bank_pb2.WithdrawRequest(branchid=request.branchid, ammount = request.ammount), timeout= 3))
       return all_response
 
-    def MsgDelivery(self):
-      pass
 
     def ProcessID(self,request, context):
       return bank_pb2.ProcessIDResponse(processid=self.processid) 
@@ -107,20 +105,20 @@ class Branch(bank_pb2_grpc.BankingServicer):
           pass
 
 
-def serve(branch_id,balance):
+def MsgDelivery(branch_id,balance):
   process_id = os.getpid()
   process_file = open("/tmp/process_file.txt", "a+")
   process_file.write(str(process_id)+"\n")
   process_file.close()
-  server = grpc.server(futures.ThreadPoolExecutor(max_workers=5))
+  MsgDelivery = grpc.server(futures.ThreadPoolExecutor(max_workers=5))
   branch = Branch(branch_id, balance, process_id)
   update_process_list_thread = threading.Thread(target=branch.update_process_list, args=())
-  bank_pb2_grpc.add_BankingServicer_to_server(branch, server)
-  server.add_insecure_port('localhost:'+ str(PORT+branch_id))
-  server.start()
+  bank_pb2_grpc.add_BankingServicer_to_server(branch, MsgDelivery)
+  MsgDelivery.add_insecure_port('localhost:'+ str(PORT+branch_id))
+  MsgDelivery.start()
   print(f"Branch {branch_id} is up and running on port {PORT + branch_id} !!!")
   update_process_list_thread.start()
-  server.wait_for_termination()
+  MsgDelivery.wait_for_termination()
 
 if __name__ == '__main__':
   balance = []
@@ -137,7 +135,7 @@ if __name__ == '__main__':
   for item in data:
     processes = []
     if item["type"] == "branch":
-      p = Process(target=serve, args=(item["id"],balance))
+      p = Process(target=MsgDelivery, args=(item["id"],balance))
       processes.append(p)
       p.start()
   for proc in processes:
