@@ -1,0 +1,32 @@
+[
+  {
+    "id" : 1,
+    "type" : "customer",
+    "events" :  [{ "id": 1, "interface":"query", "money": 400 },{ "id": 2, "interface":"withdraw", "money": 100 }]
+  },
+  {
+    "id" : 2,
+    "type" : "customer",
+    "events" :  [{ "id": 3, "interface":"deposit", "money": 170 },{ "id": 4, "interface":"query", "money": 400 }]
+  },
+  {
+    "id" : 3,
+    "type" : "customer",
+    "events" :  [{ "id": 5, "interface":"withdraw", "money": 70 },{ "id": 6, "interface":"query", "money": 400 }]
+  },
+  {
+    "id" : 1,
+    "type" : "branch",
+    "balance" : 400
+  },
+  {
+    "id" : 2,
+    "type" : "branch",
+    "balance" : 400
+  },
+  {
+    "id" : 3,
+    "type" : "branch",
+    "balance" : 400
+  }
+]

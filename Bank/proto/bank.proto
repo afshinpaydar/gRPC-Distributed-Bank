@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package banking;
+
+message Status {
+	string status = 1;
+  string message = 2;
+}
+
+message WithdrawRequest {
+  int32 branchid = 1;
+  int32 ammount  = 2;
+}
+
+message DepositRequest {
+  int32 branchid = 1;
+  int32 ammount  = 2;
+}
+
+message BalanceRequest {
+  int32 branchid  = 1;
+}
+
+message BalanceResponse {
+  int32 ammount  = 1;
+  string status = 2 ;
+}
+
+message BranchID {
+  int32 branchid = 1;
+}
+
+message ProcessIDResponse {
+  int32 processid = 1;
+}
+
+message WichBranch {}
+
+
+
+service Banking {
+  rpc Deposit(DepositRequest) returns (Status) {}
+  rpc Withdraw(WithdrawRequest) returns (Status) {}
+  rpc Propogate_Deposit(DepositRequest) returns (Status) {}
+  rpc Propogate_Withdraw(WithdrawRequest) returns (Status) {}
+  rpc Query(BalanceRequest) returns (BalanceResponse) {}
+  rpc ProcessID(BranchID) returns (ProcessIDResponse) {}
+  rpc Propagate_Deposit(DepositRequest) returns (Status) {}
+  rpc Propagate_Withdraw(WithdrawRequest) returns (Status) {}
+}
+
+
