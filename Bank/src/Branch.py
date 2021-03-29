@@ -64,7 +64,7 @@ class Branch(bank_pb2_grpc.BankingServicer):
             self.balance[request.branchid - 1]['balance'] -= request.ammount
             return bank_pb2.Status(status=f"success", message=f"Withdraw updated! branch {self.id}")
         else:
-          return bank_pb2.Status(status="failed!!!!!", message=f"Can not withdraw {request.ammount} from branch {self.balance[request.branchid - 1]['id']}")
+          return bank_pb2.Status(status="failed!", message=f"Can not withdraw {request.ammount} from branch {self.balance[request.branchid - 1]['id']}")
       except:
         return bank_pb2.Status(status="failed", message=f"Can not withdraw {request.ammount} from branch {self.balance[request.branchid - 1]['id']}")
 
